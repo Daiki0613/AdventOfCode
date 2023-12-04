@@ -29,19 +29,45 @@ vector<string> splitString(const string &s, char delimiter) {
 }
 
 int calc(vector<string>& input) {
+  // int ans = 0;
+  // for (string line : input) {
+  //   vector<string> split = splitString(splitString(line, ':')[1], '|');
+  //   // cout << line << endl;
+  //   set<int> wins;
+  //   int count = 0;
+  //   for (string s : splitString(split[0], ' ')) {
+  //     // cout << s << endl;
+  //     wins.emplace(stoi(s));
+  //   }
+  //   for (string s : splitString(split[1], ' ')) {
+  //     int num = stoi(s);
+  //     if (wins.contains(num)) {
+  //       if (count == 0) {
+  //         count = 1;
+  //       }
+  //       else {
+  //         count *= 2;
+  //       }
+  //     }
+  //   }
+  //   ans += count;
+  // }
+  // return ans;
   int ans = 0;
   for (string line : input) {
     vector<string> split = splitString(splitString(line, ':')[1], '|');
-    // cout << line << endl;
     set<int> wins;
-    int count = 0;
-    for (string s : splitString(split[0], ' ')) {
-      // cout << s << endl;
-      wins.emplace(stoi(s));
+    int number;
+    stringstream ss;
+    ss.str(split[0]);
+    while (ss >> number) {
+      wins.emplace(number);
     }
-    for (string s : splitString(split[1], ' ')) {
-      int num = stoi(s);
-      if (wins.contains(num)) {
+    int count = 0;
+    ss.clear();
+    ss.str(split[1]);
+    while (ss >> number) {
+      if (wins.contains(number)) {
         if (count == 0) {
           count = 1;
         }
