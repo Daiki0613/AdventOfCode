@@ -31,27 +31,6 @@ using VVP = vector<VP>;
 #define REP(i, x, limit) for (int i = (int)x; i < (int)limit; i++)
 #define RREP(i, x, limit) for (int i = (int)x; i <= (int)limit; i++)
 
-VS splitString(const string &s, char delimiter) {
-  VS tokens;
-  string token;
-  size_t start = 0, end;
-
-  while ((end = s.find(delimiter, start)) != string::npos) {
-    token = s.substr(start, end - start);
-    start = end + 1; // Move to the next character after the delimiter
-    if (token == "") continue;
-    tokens.push_back(token);
-  }
-
-  // Handle the substring after the last delimiter (or the whole string if no delimiter found)
-  token = s.substr(start);
-  if (!token.empty()) {
-    tokens.push_back(token);
-  }
-
-  return tokens;
-}
-
 int type(string hand) {
   map<char, int> freqs;
   for (char c : hand) {
@@ -90,10 +69,7 @@ int type(string hand) {
   return 7;
 }
 
-map<char, int> card = {{'A', 1}, {'K', 2}, {'Q', 3}, {'J', 4}, {'T', 5},
-  {'9', 6}, {'8', 7}, {'7', 8}, {'6', 9}, {'5', 10}, {'4', 11},
-  {'3', 12}, {'2', 13}
-};
+string card = "AKQJT98765432";
 
 bool comp(pair<string, int> a, pair<string, int> b) {
   // determine type
@@ -109,7 +85,7 @@ bool comp(pair<string, int> a, pair<string, int> b) {
     if (a.first[i] == b.first[i]) {
       continue;
     }
-    return card[a.first[i]] > card[b.first[i]];
+    return card.find(a.first[i]) > card.find(b.first[i]);
   }
   return true;
 }
@@ -162,5 +138,3 @@ int main(int argc, char* argv[]) {
     
   return 0;
 }
-
-

@@ -31,27 +31,6 @@ using VVP = vector<VP>;
 #define REP(i, x, limit) for (int i = (int)x; i < (int)limit; i++)
 #define RREP(i, x, limit) for (int i = (int)x; i <= (int)limit; i++)
 
-VS splitString(const string &s, char delimiter) {
-  VS tokens;
-  string token;
-  size_t start = 0, end;
-
-  while ((end = s.find(delimiter, start)) != string::npos) {
-    token = s.substr(start, end - start);
-    start = end + 1; // Move to the next character after the delimiter
-    if (token == "") continue;
-    tokens.push_back(token);
-  }
-
-  // Handle the substring after the last delimiter (or the whole string if no delimiter found)
-  token = s.substr(start);
-  if (!token.empty()) {
-    tokens.push_back(token);
-  }
-
-  return tokens;
-}
-
 int type(string hand) {
   map<char, int> freqs;
   int jacks = 0;
@@ -95,10 +74,7 @@ int type(string hand) {
   return 7;
 }
 
-map<char, int> card = {{'A', 1}, {'K', 2}, {'Q', 3}, {'J', 14}, {'T', 5},
-  {'9', 6}, {'8', 7}, {'7', 8}, {'6', 9}, {'5', 10}, {'4', 11},
-  {'3', 12}, {'2', 13}
-};
+string card = "AKQT98765432J";
 
 bool comp(pair<string, int> a, pair<string, int> b) {
   // determine type
@@ -109,12 +85,11 @@ bool comp(pair<string, int> a, pair<string, int> b) {
     return a_type > b_type;
   }
   // if same compare card strength
-
   REP(i, 0, 5) {
     if (a.first[i] == b.first[i]) {
       continue;
     }
-    return card[a.first[i]] > card[b.first[i]];
+    return card.find(a.first[i]) > card.find(b.first[i]);
   }
   return true;
 }
@@ -132,7 +107,7 @@ int calc(VS& input) {
 
   int ans = 0;
   for (int i = 0; i < hands.size(); i++) {
-    cout << hands[i].first << " " << hands[i].second << endl;
+    // cout << hands[i].first << " " << hands[i].second << endl;
     ans += hands[i].second * (i+1);
   }
   return ans; // solution 
@@ -167,5 +142,3 @@ int main(int argc, char* argv[]) {
     
   return 0;
 }
-
-
